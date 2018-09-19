@@ -18,7 +18,7 @@ exports.orders_get_all = (req, res, next) => {
             quantity: doc.quantity,
             request: {
               type: "GET",
-              url: req.protocol + '://' + req.get('host') + req.originalUrl + doc._id
+              url: req.protocol + '://' + req.get('host') + req.originalUrl + '/' + doc._id
             }
           };
         })
@@ -57,7 +57,7 @@ exports.orders_create_order = (req, res, next) => {
         },
         request: {
           type: "GET",
-          url: req.protocol + '://' + req.get('host') + req.originalUrl + result._id
+          url: req.protocol + '://' + req.get('host') + req.originalUrl + '/' + result._id
         }
       });
     })

@@ -133,7 +133,7 @@ exports.products_delete = (req, res, next) => {
         message: "Product deleted",
         request: {
           type: "POST",
-          url: req.protocol + '://' + req.get('host') + req.originalUrl + '/',
+          url: req.protocol + '://' + req.get('host') + req.originalUrl ,
           body: { name: "String", price: "Number" }
         }
       });
