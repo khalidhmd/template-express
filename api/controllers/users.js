@@ -7,8 +7,8 @@ const User = require("../models/user");
 exports.user_signup = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
-    .then(user => {
-      if (user.length >= 1) {
+    .then(users => {
+      if (users.length >= 1) {
         return res.status(409).json({
           message: "Mail exists"
         });
@@ -48,13 +48,13 @@ exports.user_signup = (req, res, next) => {
 exports.user_login = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
-    .then(user => {
-      if (user.length < 1) {
+    .then(users => {
+      if (users.length < 1) {
         return res.status(401).json({
           message: "Auth failed"
         });
       }
-      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+      bcrypt.compare(req.body.password, users[0].password, (err, result) => {
         if (err) {
           return res.status(401).json({
             message: "Auth failed"
@@ -63,9 +63,9 @@ exports.user_login = (req, res, next) => {
         if (result) {
           const token = jwt.sign(
             {
-              email: user[0].email,
-              userId: user[0]._id,
-              roles: user[0].roles
+              email: users[0].email,
+              userId: users[0]._id,
+              roles: users[0].roles
             },
             process.env.JWT_KEY,
             {

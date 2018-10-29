@@ -9,14 +9,7 @@ const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/orders");
 const userRoutes = require('./api/routes/user');
 
-// mongoose.connect(
-//   "mongodb://node-shop:" +
-//     process.env.MONGO_ATLAS_PW +
-//     "@node-rest-shop-shard-00-00-wovcj.mongodb.net:27017,node-rest-shop-shard-00-01-wovcj.mongodb.net:27017,node-rest-shop-shard-00-02-wovcj.mongodb.net:27017/test?ssl=true&replicaSet=node-rest-shop-shard-0&authSource=admin",
-//   {
-//     useMongoClient: true
-//   }
-// );
+
 mongoose.connect(
   "mongodb://user1:mongodb1@ds159812.mlab.com:59812/productdb"
 );
@@ -46,12 +39,14 @@ app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/user", userRoutes);
 
+// handle non existing routes
 app.use((req, res, next) => {
   const error = new Error("Not found");
   error.status = 404;
   next(error);
 });
 
+// handle errors from route handlers
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
